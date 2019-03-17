@@ -2,6 +2,9 @@ import Vue from 'vue'
 import './plugins/vuetify'
 import App from './App.vue'
 
+import VuePlyr from 'vue-plyr'
+import 'vue-plyr/dist/vue-plyr.css'
+
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
@@ -9,6 +12,8 @@ import router from './router'
 import store from './store'
 
 Vue.config.productionTip = false
+
+Vue.use(VuePlyr)
 
 new Vue({
   router,

@@ -4,10 +4,10 @@
       text-xs-center
       wrap
     >
-      <v-flex x6>
+      <v-flex xs6 class="px-1">
         <Player />
       </v-flex>
-      <v-flex xs6>
+      <v-flex xs6 class="px-1">
         <Search />
       </v-flex>
     </v-layout>

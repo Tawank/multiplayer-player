@@ -22,7 +22,7 @@
         <v-divider light></v-divider>
         <v-card-actions class="pa-3">
           <v-spacer></v-spacer>
-          <v-btn flat color="white" @click="() => {$router.push({ name: 'Room', params: { id: room.id }})}">Wejdź</v-btn>
+          <v-btn flat color="white" @click="() => {$router.push({ name: 'room', params: { id: room.id }})}">Wejdź</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>

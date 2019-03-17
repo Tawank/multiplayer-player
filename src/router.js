@@ -16,7 +16,7 @@ export default new Router({
     },
     {
       path: '/pokoj/:id',
-      name: 'Room',
+      name: 'room',
       component: Room
     },
     {
