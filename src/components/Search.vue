@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     getRelated (id) {
-      axios.get(`https://us-central1-ytb-plr.cloudfunctions.net/youtubeRelated?id=${id}`).then((response) => {
+      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?id=${id}`).then((response) => {
         this.related = response.data.items.map(x => ({
           title: x.snippet.title,
           src: x.id.videoId,
@@ -123,7 +123,7 @@ export default {
       })
     },
     searchYoutube () {
-      axios.get(`https://us-central1-ytb-plr.cloudfunctions.net/youtubeRelated?search=${this.src}`).then((response) => {
+      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?search=${this.src}`).then((response) => {
         this.related = response.data.items.map(x => ({
           title: x.snippet.title,
           src: x.id.videoId,

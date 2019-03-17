@@ -1,4 +1,3 @@
-
 'use strict';
 
 const functions = require('firebase-functions');
@@ -7,8 +6,8 @@ admin.initializeApp();
 const {OAuth2Client} = require('google-auth-library');
 const {google} = require('googleapis');
 
-const CONFIG_CLIENT_ID = '482093209743-cu7v81s6rpkkua64v43qpfjl89uev9a5.apps.googleusercontent.com';
-const CONFIG_CLIENT_SECRET = '1P1wLuygdTXemAwnOv9ASihB';
+const CONFIG_CLIENT_ID = functions.config().youtube.id;
+const CONFIG_CLIENT_SECRET = functions.config().youtube.secret;
 
 // The OAuth Callback Redirect.
 const FUNCTIONS_REDIRECT = `https://us-central1-${process.env.GCLOUD_PROJECT}.cloudfunctions.net/oauthcallback`;
@@ -27,7 +26,7 @@ exports.authgoogleapi = functions.https.onRequest((req, res) => {
   res.redirect(functionsOauthClient.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES,
-    prompt: 'consent'
+    prompt: 'consent',
   }));
 });
 
@@ -36,18 +35,15 @@ const DB_TOKEN_PATH = '/api_tokens';
 
 // after you grant access, you will be redirected to the URL for this Function
 // this Function stores the tokens to your Firebase database
-exports.oauthcallback = functions.https.onRequest((req, res) => {
+exports.oauthcallback = functions.https.onRequest(async (req, res) => {
   res.set('Cache-Control', 'private, max-age=0, s-maxage=0');
   const code = req.query.code;
   try {
-    functionsOauthClient.getToken(code).then(tokens => {
-      admin.database().ref(DB_TOKEN_PATH).set({tokens}).then(() =>{
-        return res.status(200).send('App successfully configured with new Credentials. '
-        + 'You can now close this page.');
-      }).catch(e => e);
-      return;
-    }).catch(e => e);
+    const {tokens} = await functionsOauthClient.getToken(code);
     // Now tokens contains an access_token and an optional refresh_token. Save them.
+    await admin.database().ref(DB_TOKEN_PATH).set(tokens);
+    return res.status(200).send('App successfully configured with new Credentials. '
+        + 'You can now close this page.');
   } catch (error) {
     return res.status(400).send(error);
   }
@@ -75,19 +71,18 @@ function appendPromise(requestWithoutAuth) {
 }
 
 // checks if oauthTokens have been loaded into memory, and if not, retrieves them
-function getAuthorizedClient() {
+async function getAuthorizedClient() {
   if (oauthTokens) {
     return functionsOauthClient;
   }
-
-  admin.database().ref(DB_TOKEN_PATH).once('value').then(snapshot => {
-    oauthTokens = snapshot.val();
-    functionsOauthClient.setCredentials(oauthTokens);
-    return functionsOauthClient;
-  }).catch(e => e);
+  const snapshot = await admin.database().ref(DB_TOKEN_PATH).once('value');
+  oauthTokens = snapshot.val();
+  functionsOauthClient.setCredentials(oauthTokens);
+  return functionsOauthClient;
 }
 
-exports.youtubeRelated = functions.https.onRequest((req, res) => {
+// HTTPS function to write new data to CONFIG_DATA_PATH, for testing
+exports.youtubeRelated = functions.https.onRequest(async (req, res) => {
   res.header('Content-Type','application/json');
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -110,7 +105,7 @@ exports.youtubeRelated = functions.https.onRequest((req, res) => {
   }
 
   appendPromise(obj).then(response =>{
-    return res.json(response);
+    res.json(response);
   }).catch(error => {
     res.json(error);
   });

@@ -10,8 +10,15 @@
     </v-toolbar>
 
     <v-content>
-      <router-view>
-      </router-view>
+      <v-container>
+        <v-layout
+          text-xs-center
+          wrap
+        >
+          <router-view>
+          </router-view>
+        </v-layout>
+      </v-container>
     </v-content>
   </v-app>
 </template>

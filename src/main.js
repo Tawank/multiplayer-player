@@ -23,5 +23,6 @@ new Vue({
       storageBucket: 'multiplayer-player.appspot.com',
       messagingSenderId: '401823794317'
     })
+    this.$store.dispatch('listenRooms')
   }
 }).$mount('#app')
