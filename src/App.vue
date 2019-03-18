@@ -6,7 +6,15 @@
         <span class="font-weight-light">Player</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-
+      <v-img
+        :src="'https://api.adorable.io/avatars/' + user"
+        class="mr-2"
+        height="50px"
+        contain
+        position="right center"
+        aspect-ratio="1"
+      ></v-img>
+      {{user}}
     </v-toolbar>
 
     <v-content>
@@ -27,7 +35,11 @@ export default {
   name: 'App',
   data () {
     return {
+      user: ''
     }
+  },
+  mounted () {
+    this.user = Math.random().toString(36).substring(7)
   }
 }
 </script>
