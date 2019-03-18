@@ -1,10 +1,19 @@
 <template>
-  <Rooms>
-  </Rooms>
+  <v-layout row wrap>
+    <v-flex xs12>
+      <AddRoom>
+      </AddRoom>
+    </v-flex>
+    <v-flex xs12>
+      <Rooms>
+      </Rooms>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
 import Rooms from '../components/Rooms'
+import AddRoom from '../components/AddRoom'
 
 export default {
   data () {
@@ -14,7 +23,8 @@ export default {
   computed: {
   },
   components: {
-    Rooms
+    Rooms,
+    AddRoom
   }
 }
 </script>

@@ -28,7 +28,7 @@
     <v-flex
     v-for="item in related"
     :key="item.src"
-    xs3
+    xs2
     d-flex
     >
       <v-card flat tile class="d-flex">

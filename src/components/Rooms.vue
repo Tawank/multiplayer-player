@@ -1,11 +1,11 @@
 <template>
-  <v-layout row>
-    <v-flex xs3>
-      <v-card color="cyan darken-2" class="white--text" :key="room.id" v-for="room in rooms">
-        <v-layout>
+  <v-layout row wrap>
+    <v-flex xs3 :key="room.id" v-for="(room, index) in rooms">
+      <v-card :color="colors[index % colors.length]" class="white--text">
+        <v-layout row wrap>
           <v-flex xs5>
             <v-img
-              src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+              :src="((room.song && room.song.thumbnail) ? '' : 'https://cdn.vuetifyjs.com/images/cards/foster.jpg')"
               height="125px"
               contain
             ></v-img>
@@ -34,6 +34,14 @@
 export default {
   data () {
     return {
+      colors: [
+        'red darken-4',
+        'blue darken-4',
+        'purple darken-1',
+        'cyan darken-4',
+        'orange darken-3',
+        'green darken-3'
+      ]
     }
   },
   computed: {
