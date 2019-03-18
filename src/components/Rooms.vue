@@ -5,7 +5,7 @@
         <v-layout row wrap>
           <v-flex xs5>
             <v-img
-              :src="((room.song && room.song.thumbnail) ? '' : 'https://cdn.vuetifyjs.com/images/cards/foster.jpg')"
+              :src="((room.song && room.song.thumbnail) ? room.song.thumbnail : 'https://cdn.vuetifyjs.com/images/cards/foster.jpg')"
               height="125px"
               contain
             ></v-img>
@@ -15,6 +15,7 @@
               <div>
                 <div class="headline">{{room.name}}</div>
                 <div>{{room.description}}</div>
+                <div class="caption" v-if="room.song">Aktualnie gra: {{room.song.title}}</div>
               </div>
             </v-card-title>
           </v-flex>

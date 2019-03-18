@@ -12,7 +12,6 @@
     <v-content>
       <v-container>
         <v-layout
-          text-xs-center
           wrap
         >
           <router-view>

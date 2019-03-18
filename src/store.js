@@ -8,11 +8,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    rooms: []
+    rooms: [],
+    roomsObj: {}
   },
   mutations: {
     setRooms (state, payload) {
       state.rooms = payload
+    },
+    setRoomsObj (state, payload) {
+      state.roomsObj = payload
     }
   },
   actions: {
@@ -24,6 +28,7 @@ export default new Vuex.Store({
           array.push({ id: key, ...object[key] })
         })
         commit('setRooms', array)
+        commit('setRoomsObj', object)
       })
     },
     addRoom ({ commit }, payload) {
@@ -35,11 +40,23 @@ export default new Vuex.Store({
       newPostRef.set(update, error => {
         console.log(error)
       })
+    },
+    setSong ({ commit }, payload) {
+      firebase.database().ref(`rooms/${payload.roomId}/song`).set({
+        src: payload.src,
+        title: payload.title,
+        thumbnail: payload.thumbnail
+      }, error => {
+        console.log(error)
+      })
     }
   },
   getters: {
     rooms (state) {
       return state.rooms
+    },
+    roomsObj (state) {
+      return state.roomsObj
     }
   }
 })

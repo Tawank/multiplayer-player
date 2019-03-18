@@ -51,7 +51,7 @@
               depressed
               icon medium
               color="grey darken-3"
-              @click="() => { }"
+              @click="() => { setSrc(item.src, item.title.replace(/^(.{0,27}).*$/, '$1'), item.thumbnail) }"
               >
               <v-icon medium>
                 play_arrow
@@ -101,6 +101,9 @@
 import axios from 'axios'
 
 export default {
+  props: {
+    initSearch: String
+  },
   data () {
     return {
       related: null,
@@ -108,6 +111,29 @@ export default {
     }
   },
   mounted () {
+    if (this.initSearch) {
+      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?id=${this.initSearch}`).then((response) => {
+        this.related = response.data.items.map(x => ({
+          title: x.snippet.title,
+          src: x.id.videoId,
+          thumbnail: x.snippet.thumbnails.medium.url
+        }))
+      }).catch((error) => {
+        // eslint-disable-next-line
+        console.log(error);
+      })
+    } else {
+      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?search=music`).then((response) => {
+        this.related = response.data.items.map(x => ({
+          title: x.snippet.title,
+          src: x.id.videoId,
+          thumbnail: x.snippet.thumbnails.medium.url
+        }))
+      }).catch((error) => {
+        // eslint-disable-next-line
+        console.log(error);
+      })
+    }
   },
   methods: {
     getRelated (id) {
@@ -123,7 +149,7 @@ export default {
       })
     },
     searchYoutube () {
-      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?search=${this.src}`).then((response) => {
+      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?search=${this.search}`).then((response) => {
         this.related = response.data.items.map(x => ({
           title: x.snippet.title,
           src: x.id.videoId,
@@ -134,8 +160,9 @@ export default {
         console.log(error);
       })
     },
-    setSrc (src) {
-
+    setSrc (src, title, thumbnail) {
+      console.log({ src, title, thumbnail })
+      this.$emit('videoSelected', { src, title, thumbnail })
     }
   }
 }

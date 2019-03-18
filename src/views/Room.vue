@@ -5,10 +5,10 @@
       wrap
     >
       <v-flex xs6 class="px-1">
-        <Player />
+        <Player :src="songSrc" />
       </v-flex>
       <v-flex xs6 class="px-1">
-        <Search />
+        <Search :initSearch="songSrc" @videoSelected="setVideo" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -19,6 +19,21 @@ import Player from '../components/Player'
 import Search from '../components/Search'
 
 export default {
+  methods: {
+    setVideo ({ src, title, thumbnail }) {
+      this.$store.dispatch('setSong', { roomId: this.roomId, src, title, thumbnail })
+    }
+  },
+  computed: {
+    roomId () {
+      return this.$route.params.id
+    },
+    songSrc () {
+      if (this.$store.getters.roomsObj[this.roomId] && this.$store.getters.roomsObj[this.roomId].song) {
+        return this.$store.getters.roomsObj[this.roomId].song.src
+      } else return null
+    }
+  },
   components: {
     Player,
     Search
