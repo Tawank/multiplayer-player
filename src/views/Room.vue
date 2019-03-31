@@ -1,17 +1,14 @@
 <template>
-  <v-container>
-    <v-layout
-      text-xs-center
-      wrap
-    >
-      <v-flex xs6 class="px-1">
-        <Player :src="songSrc" />
-      </v-flex>
-      <v-flex xs6 class="px-1">
-        <Search :initSearch="songSrc" @videoSelected="setVideo" />
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <v-layout
+    wrap
+  >
+    <v-flex lg6 md12 class="px-1">
+      <Player :src="songSrc" />
+    </v-flex>
+    <v-flex lg6 md12 class="px-1">
+      <Search :initSearch="songSrc" @videoSelected="setVideo" />
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>

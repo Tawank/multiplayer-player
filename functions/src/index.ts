@@ -93,14 +93,14 @@ exports.youtubeRelated = functions.https.onRequest(async (req, res) => {
       'part': 'snippet',
       'relatedToVideoId': req.query.id,
       'type': 'video',
-      'maxResults': 24
+      'maxResults': 26
     }
   } else {
     obj = {
       'part': 'snippet',
       'q': req.query.search,
       'type': 'video',
-      'maxResults': 24
+      'maxResults': 26
     }
   }
 

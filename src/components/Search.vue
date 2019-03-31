@@ -47,8 +47,8 @@
           <v-layout class="mt-4">
             <v-flex xs12>
               <v-btn
-              dark class="mx-1"
-              depressed
+              dark :class="$vuetify.breakpoint.width < 1450 ? 'mx-0' : 'mx-1'"
+              depressed :style="$vuetify.breakpoint.width < 1675 ? 'width: 30px;' : ''"
               icon medium
               color="grey darken-3"
               @click="() => { setSrc(item.src, item.title.replace(/^(.{0,27}).*$/, '$1'), item.thumbnail) }"
@@ -58,8 +58,8 @@
               </v-icon>
               </v-btn>
               <v-btn
-              dark class="mx-1"
-              depressed
+              dark :class="$vuetify.breakpoint.width < 1450 ? 'mx-0' : 'mx-1'"
+              depressed :style="$vuetify.breakpoint.width < 1675 ? 'width: 30px;' : ''"
               icon medium
               color="grey darken-3"
               @click="() => { }"
@@ -69,8 +69,8 @@
               </v-icon>
               </v-btn>
               <v-btn
-              dark class="mx-1"
-              depressed
+              dark :class="$vuetify.breakpoint.width < 1450 ? 'mx-0' : 'mx-1'"
+              depressed :style="$vuetify.breakpoint.width < 1675 ? 'width: 30px;' : ''"
               icon medium
               color="grey darken-3"
               @click="() => { getRelated(item.src) }"
@@ -117,7 +117,7 @@ export default {
           title: x.snippet.title,
           src: x.id.videoId,
           thumbnail: x.snippet.thumbnails.medium.url
-        }))
+        })).slice(0, 24)
       }).catch((error) => {
         // eslint-disable-next-line
         console.log(error);
@@ -128,7 +128,7 @@ export default {
           title: x.snippet.title,
           src: x.id.videoId,
           thumbnail: x.snippet.thumbnails.medium.url
-        }))
+        })).slice(0, 24)
       }).catch((error) => {
         // eslint-disable-next-line
         console.log(error);
@@ -142,7 +142,7 @@ export default {
           title: x.snippet.title,
           src: x.id.videoId,
           thumbnail: x.snippet.thumbnails.medium.url
-        }))
+        })).slice(0, 24)
       }).catch((error) => {
         // eslint-disable-next-line
         console.log(error);
@@ -154,7 +154,7 @@ export default {
           title: x.snippet.title,
           src: x.id.videoId,
           thumbnail: x.snippet.thumbnails.medium.url
-        }))
+        })).slice(0, 24)
       }).catch((error) => {
         // eslint-disable-next-line
         console.log(error);
