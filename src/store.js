@@ -9,7 +9,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     rooms: [],
-    roomsObj: {}
+    roomsObj: {},
+    playlist: []
   },
   mutations: {
     setRooms (state, payload) {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     },
     setRoomsObj (state, payload) {
       state.roomsObj = payload
+    },
+    setPlaylist (state, payload) {
+      state.playlist = payload
     }
   },
   actions: {
@@ -49,6 +53,10 @@ export default new Vuex.Store({
       }, error => {
         console.log(error)
       })
+    },
+    getPlaylistForRoom ({ commit }, payload) {
+      // firebase.database().ref(`playlists/${payload.roomId}`).
+      // commit('setPlaylist', snapshot.val())
     }
   },
   getters: {
@@ -57,6 +65,9 @@ export default new Vuex.Store({
     },
     roomsObj (state) {
       return state.roomsObj
+    },
+    playlist (state) {
+      return state.playlist
     }
   }
 })

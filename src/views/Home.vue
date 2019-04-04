@@ -1,12 +1,10 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12>
-      <AddRoom>
-      </AddRoom>
+      <AddRoom />
     </v-flex>
     <v-flex xs12>
-      <Rooms>
-      </Rooms>
+      <Rooms />
     </v-flex>
   </v-layout>
 </template>
