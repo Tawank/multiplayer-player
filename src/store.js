@@ -10,7 +10,8 @@ export default new Vuex.Store({
   state: {
     rooms: [],
     roomsObj: {},
-    playlist: []
+    playlist: [],
+    user: null
   },
   mutations: {
     setRooms (state, payload) {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     setPlaylist (state, payload) {
       state.playlist = payload
+    },
+    setUser (state, payload) {
+      state.user = payload
     }
   },
   actions: {
@@ -57,6 +61,38 @@ export default new Vuex.Store({
     getPlaylistForRoom ({ commit }, payload) {
       // firebase.database().ref(`playlists/${payload.roomId}`).
       // commit('setPlaylist', snapshot.val())
+    },
+    signUserUp ({ commit }, payload) {
+      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+        .then(
+          user => {
+            const newUser = {
+              id: user.uid
+            }
+            commit('setUser', newUser)
+          }
+        )
+        .catch(
+          error => {
+            console.log(error)
+          }
+        )
+    },
+    signUserin ({ commit }, payload) {
+      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+        .then(
+          user => {
+            const newUser = {
+              id: user.uid
+            }
+            commit('setUser', newUser)
+          }
+        )
+        .catch(
+          error => {
+            console.log(error)
+          }
+        )
     }
   },
   getters: {
@@ -68,6 +104,9 @@ export default new Vuex.Store({
     },
     playlist (state) {
       return state.playlist
+    },
+    user (state) {
+      return state.user
     }
   }
 })

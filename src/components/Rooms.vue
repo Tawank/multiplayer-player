@@ -1,12 +1,12 @@
 <template>
   <v-layout row wrap>
     <v-flex lg3 md4 sm6 xs12 :key="room.id" v-for="(room, index) in rooms">
-      <v-card :color="colors[index % colors.length]" class="white--text">
+      <v-card :color="colors[index % colors.length]" class="white--text ma-1">
         <v-layout row wrap>
           <v-flex xs5>
             <v-img
               :src="((room.song && room.song.thumbnail) ? room.song.thumbnail : '/question.png')"
-              height="125px" :class="'ml-2 ' + ((room.song && room.song.thumbnail) ? '' : 'my-2') "
+              height="125px" class="ml-2"
               contain
             ></v-img>
           </v-flex>
@@ -15,13 +15,13 @@
               <div style="width: 100%;">
                 <div :title="room.name" class="headline">{{room.name}}</div>
                 <div :title="room.description" class="text-truncate">{{room.description}}</div>
-                <div :title="room.song.title" class="text-truncate caption" v-if="room.song">Aktualnie gra: {{room.song.title}}</div>
               </div>
             </v-card-title>
           </v-flex>
         </v-layout>
         <v-divider light></v-divider>
         <v-card-actions class="pa-3">
+          <div :title="room.song.title" class="text-truncate caption" v-if="room.song">Aktualnie gra: {{room.song.title}}</div>
           <v-spacer></v-spacer>
           <v-btn flat color="white" @click="() => {$router.push({ name: 'room', params: { id: room.id }})}">Wejdź</v-btn>
         </v-card-actions>
