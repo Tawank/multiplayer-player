@@ -22,12 +22,12 @@ export default new Router({
       component: Room
     },
     {
-      path: '/rejestracja',
+      path: '/logowanie',
       name: 'singin',
       component: Singin
     },
     {
-      path: '/logowanie',
+      path: '/rejestracja',
       name: 'singup',
       component: Singup
     },

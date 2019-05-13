@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-toolbar app>
-      <v-toolbar-title @click="() => { $router.push({ name: 'home' }) }" class="headline text-uppercase">
+      <v-toolbar-title @click="() => { $router.push({ name: 'home' }) }" class="headline text-uppercase" style="cursor: pointer;">
         <span>MultiPlayer</span>
         <span class="font-weight-light">Player</span>
       </v-toolbar-title>
@@ -16,6 +16,9 @@
         position="right center"
         aspect-ratio="1"
       ></v-img>
+      <v-toolbar-items>
+        <v-btn @click="() => { $router.push({ name: 'singin' }) }" flat class="ml-4">Logowanie<v-icon right dark>lock</v-icon></v-btn>
+      </v-toolbar-items>
     </v-toolbar>
 
     <v-content>

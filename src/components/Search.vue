@@ -41,7 +41,7 @@
         >
         <v-layout column fill-height class="lightbox white--text">
           <v-flex shrink>
-            <div class="subheading" style="height: 50px;background:rgba(0,0,0,0.7);">{{item.title.replace(/^(.{0,27}).*$/, '$1')}}</div>
+            <div class="subheading" style="height: 50px; background:rgba(0,0,0,0.7); overflow:hidden;">{{item.title}}</div>
           </v-flex>
           <v-spacer></v-spacer>
           <v-layout class="mt-4">
@@ -51,7 +51,7 @@
               depressed :style="$vuetify.breakpoint.width < 1675 ? 'width: 30px;' : ''"
               icon medium
               color="grey darken-3"
-              @click="() => { setSrc(item.src, item.title.replace(/^(.{0,27}).*$/, '$1'), item.thumbnail) }"
+              @click="() => { setSrc(item.src, item.title, item.thumbnail) }"
               >
               <v-icon medium>
                 play_arrow
