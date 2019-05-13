@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Room from './views/Room.vue'
+import Singin from './views/Singin.vue'
+import Singup from './views/Singup.vue'
 
 Vue.use(Router)
 
@@ -18,6 +20,16 @@ export default new Router({
       path: '/pokoj/:id',
       name: 'room',
       component: Room
+    },
+    {
+      path: '/rejestracja',
+      name: 'singin',
+      component: Singin
+    },
+    {
+      path: '/logowanie',
+      name: 'singup',
+      component: Singup
     },
     {
       path: '/about',
