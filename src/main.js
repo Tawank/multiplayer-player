@@ -9,7 +9,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 import router from './router'
-import store from './store'
+import store from '@/store'
 
 Vue.config.productionTip = false
 
@@ -29,5 +29,10 @@ new Vue({
       messagingSenderId: '401823794317'
     })
     this.$store.dispatch('listenRooms')
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$store.dispatch('autoSignIn', user)
+      }
+    })
   }
 }).$mount('#app')

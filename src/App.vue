@@ -6,9 +6,9 @@
         <span class="font-weight-light">Player</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      {{user}}
+      {{user && user.email || tmpUser}}
       <v-img
-        :src="user && `https://api.adorable.io/avatars/${user}`"
+        :src="tmpUser && `https://api.adorable.io/avatars/${tmpUser}`"
         class="ml-3"
         height="50px"
         max-width="50px"
@@ -17,7 +17,7 @@
         aspect-ratio="1"
       ></v-img>
       <v-toolbar-items>
-        <v-btn @click="() => { $router.push({ name: 'singin' }) }" flat class="ml-4">Logowanie<v-icon right dark>lock</v-icon></v-btn>
+        <v-btn @click="() => { user ? logout() : $router.push({ name: 'singin' }) }" flat class="ml-4">{{ user ? 'Wyloguj' : 'Logowanie' }}<v-icon right dark>lock</v-icon></v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -35,7 +35,7 @@ export default {
   name: 'App',
   data () {
     return {
-      user: '',
+      tmpUser: '',
       adjectives: [
         'Agresywny',
         'Arogancki',
@@ -132,10 +132,20 @@ export default {
       ]
     }
   },
+  computed: {
+    user () {
+      return this.$store.getters.user
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+    }
+  },
   mounted () {
-    this.user = this.nouns[Math.floor((Math.random() * this.nouns.length))]
+    this.tmpUser = this.nouns[Math.floor((Math.random() * this.nouns.length))]
     let adj = this.adjectives[Math.floor((Math.random() * this.adjectives.length))]
-    this.user = (this.user[this.user.length - 1] === 'a' ? adj.replace(/.$/, 'a') : adj) + ' ' + this.user
+    this.tmpUser = (this.tmpUser[this.tmpUser.length - 1] === 'a' ? adj.replace(/.$/, 'a') : adj) + ' ' + this.tmpUser
   }
 }
 </script>

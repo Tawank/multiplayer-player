@@ -47,6 +47,17 @@
                       required></v-text-field>
                   </v-flex>
                 </v-layout>
+                <v-layout row>
+                  <v-flex xs12>
+                    <v-text-field
+                      name="confirmPassword"
+                      label="Potwierdź Hasło"
+                      id="confirmPassword"
+                      v-model="confirmPassword"
+                      type="password"
+                      :rules="[comparePasswords]"></v-text-field>
+                  </v-flex>
+                </v-layout>
 
                 <v-layout row>
                   <v-flex xs12>
@@ -72,6 +83,9 @@ export default {
     }
   },
   computed: {
+    comparePasswords () {
+      return this.password !== this.confirmPassword ? 'Hasła nie zgadzają się' : ''
+    },
     user () {
       return this.$store.getters.user
     }
@@ -85,7 +99,7 @@ export default {
   },
   methods: {
     onSignin () {
-      this.$store.dispatch('signUserIn', { email: this.email, password: this.password })
+      this.$store.dispatch('signUserUp', { email: this.email, password: this.password })
     }
   }
 }
