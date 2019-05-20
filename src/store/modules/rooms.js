@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import axios from 'axios'
 import firebase from 'firebase/app'
 import 'firebase/database'
 
@@ -10,7 +11,8 @@ export default {
   state: {
     rooms: [],
     roomsObj: {},
-    playlist: []
+    playlist: [],
+    related: []
   },
   mutations: {
     setRooms (state, payload) {
@@ -21,6 +23,9 @@ export default {
     },
     setPlaylist (state, payload) {
       state.playlist = payload
+    },
+    setRelated (state, payload) {
+      state.related = payload
     }
   },
   actions: {
@@ -45,18 +50,16 @@ export default {
         console.log(error)
       })
     },
-    setSong ({ commit }, payload) {
-      firebase.database().ref(`rooms/${payload.roomId}/song`).set({
-        src: payload.src,
-        title: payload.title,
-        thumbnail: payload.thumbnail
-      }, error => {
+    searchRelated ({ commit }, payload) {
+      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?search=${payload}`).then((response) => {
+        commit('setRelated', response.data.items.map(x => ({
+          title: x.snippet.title,
+          src: x.id.videoId,
+          thumbnail: x.snippet.thumbnails.medium.url
+        })).slice(0, 24))
+      }).catch((error) => {
         console.log(error)
       })
-    },
-    getPlaylistForRoom ({ commit }, payload) {
-      // firebase.database().ref(`playlists/${payload.roomId}`).
-      // commit('setPlaylist', snapshot.val())
     }
   },
   getters: {
@@ -68,6 +71,9 @@ export default {
     },
     playlist (state) {
       return state.playlist
+    },
+    related (state) {
+      return state.related
     }
   }
 }

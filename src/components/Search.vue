@@ -62,7 +62,7 @@
               depressed :style="$vuetify.breakpoint.width < 1675 ? 'width: 30px;' : ''"
               icon medium
               color="grey darken-3"
-              @click="() => { }"
+              @click="() => { addToPlaylist(item.src, item.title, item.thumbnail) }"
               >
               <v-icon medium>
                 playlist_add
@@ -98,71 +98,41 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   props: {
     initSearch: String
   },
   data () {
     return {
-      related: null,
       search: ''
+    }
+  },
+  computed: {
+    related () {
+      return this.$store.getters.related
     }
   },
   mounted () {
     if (this.initSearch) {
-      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?id=${this.initSearch}`).then((response) => {
-        this.related = response.data.items.map(x => ({
-          title: x.snippet.title,
-          src: x.id.videoId,
-          thumbnail: x.snippet.thumbnails.medium.url
-        })).slice(0, 24)
-      }).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error);
-      })
+      this.$store.dispatch('searchRelated', this.initSearch)
     } else {
-      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?search=music`).then((response) => {
-        this.related = response.data.items.map(x => ({
-          title: x.snippet.title,
-          src: x.id.videoId,
-          thumbnail: x.snippet.thumbnails.medium.url
-        })).slice(0, 24)
-      }).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error);
-      })
+      this.$store.dispatch('searchRelated', 'music')
     }
   },
   methods: {
     getRelated (id) {
-      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?id=${id}`).then((response) => {
-        this.related = response.data.items.map(x => ({
-          title: x.snippet.title,
-          src: x.id.videoId,
-          thumbnail: x.snippet.thumbnails.medium.url
-        })).slice(0, 24)
-      }).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error);
-      })
+      this.$store.dispatch('searchRelated', id)
     },
     searchYoutube () {
-      axios.get(`https://us-central1-multiplayer-player.cloudfunctions.net/youtubeRelated?search=${this.search}`).then((response) => {
-        this.related = response.data.items.map(x => ({
-          title: x.snippet.title,
-          src: x.id.videoId,
-          thumbnail: x.snippet.thumbnails.medium.url
-        })).slice(0, 24)
-      }).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error);
-      })
+      this.$store.dispatch('searchRelated', this.search)
     },
     setSrc (src, title, thumbnail) {
       console.log({ src, title, thumbnail })
       this.$emit('videoSelected', { src, title, thumbnail })
+    },
+    addToPlaylist (src, title, thumbnail) {
+      console.log({ src, title, thumbnail })
+      this.$emit('addToPlaylist', { src, title, thumbnail })
     }
   }
 }
