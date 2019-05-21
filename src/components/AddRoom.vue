@@ -34,11 +34,16 @@ export default {
       roomDescription: ''
     }
   },
+  computed: {
+    user () {
+      return this.$store.getters.user
+    }
+  },
   mounted () {
   },
   methods: {
     addRoom () {
-      this.$store.dispatch('addRoom', { name: this.roomName, description: this.roomDescription })
+      this.$store.dispatch('addRoom', { name: this.roomName, description: this.roomDescription, user: this.user })
     }
   }
 }

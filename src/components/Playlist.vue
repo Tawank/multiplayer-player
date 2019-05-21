@@ -30,7 +30,7 @@
                 <v-btn icon ripple @click="() => { getRelated(item.src) }" class="ml-2">
                   <v-icon color="grey lighten-1">apps</v-icon>
                 </v-btn>
-                <v-btn icon ripple @click="() => { deleteFromPlaylist(item.key) }" class="ml-2">
+                <v-btn icon ripple @click="() => { deleteFromPlaylist(index) }" class="ml-2">
                   <v-icon color="grey lighten-1">delete</v-icon>
                 </v-btn>
               </v-flex>

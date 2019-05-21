@@ -127,7 +127,6 @@ export default {
       this.$store.dispatch('searchRelated', this.search)
     },
     setSrc (src, title, thumbnail) {
-      console.log({ src, title, thumbnail })
       this.$emit('videoSelected', { src, title, thumbnail })
     },
     addToPlaylist (src, title, thumbnail) {

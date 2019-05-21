@@ -5,7 +5,7 @@
     <v-flex lg6 md12 class="px-1">
       <v-layout wrap>
         <v-flex xs12>
-          <Player :src="songSrc" />
+          <Player ref="player" v-if="song" :src="song.src" :startedDate="song.startedDate" @ended="songEnded"/>
         </v-flex>
         <v-flex xs12>
           <Playlist :playlist="playlist" @playFromPlaylist="playFromPlaylist" @deleteFromPlaylist="deleteFromPlaylist" />
@@ -13,7 +13,7 @@
       </v-layout>
     </v-flex>
     <v-flex lg6 md12 class="px-1">
-      <Search :initSearch="songSrc" @videoSelected="setVideo" @addToPlaylist="addToPlaylist" />
+      <Search :initSearch="song && song.src" @videoSelected="setVideo" @addToPlaylist="addToPlaylist" />
     </v-flex>
   </v-layout>
 </template>
@@ -35,13 +35,18 @@ export default {
   },
   methods: {
     setVideo ({ src, title, thumbnail }) {
-      firebase.database().ref(`playlist/${this.roomId}`).set({
+      firebase.database().ref(`rooms/${this.roomId}/song`).set({
         src,
         title,
-        thumbnail
+        thumbnail,
+        startedDate: firebase.database.ServerValue.TIMESTAMP
       }, error => {
-        console.log(error)
+        if (error) {
+          this.error = error
+          console.log(error)
+        }
       })
+      this.$refs.player.player.play()
     },
     addToPlaylist ({ src, title, thumbnail }) {
       let newSong = firebase.database().ref(`playlist/${this.roomId}`).push()
@@ -50,8 +55,10 @@ export default {
         title,
         thumbnail
       }, error => {
-        this.error = error
-        console.log(error)
+        if (error) {
+          this.error = error
+          console.log(error)
+        }
       })
     },
     fetchPlaylist () {
@@ -59,9 +66,23 @@ export default {
         this.playlist = snapshot.val()
       })
     },
-    playFromPlaylist () {
+    playFromPlaylist (search) {
+      if (!search) return
+      this.setVideo({
+        src: search.src,
+        title: search.title,
+        thumbnail: search.thumbnail
+      })
+      this.deleteFromPlaylist(search.key)
     },
-    deleteFromPlaylist () {
+    deleteFromPlaylist (key) {
+      firebase.database().ref(`playlist/${this.roomId}/${key}`).set(null)
+    },
+    songEnded () {
+      this.playFromPlaylist({
+        key: Object.keys(this.playlist)[0],
+        ...this.playlist[Object.keys(this.playlist)[0]]
+      })
     }
   },
   created () {
@@ -71,14 +92,12 @@ export default {
     roomId () {
       return this.$route.params.id
     },
-    songSrc () {
-      if (this.$store.getters.roomsObj[this.roomId] && this.$store.getters.roomsObj[this.roomId].song) {
-        return this.$store.getters.roomsObj[this.roomId].song.src
-      } else return null
+    song () {
+      return this.$store.getters.roomsObj[this.roomId] && this.$store.getters.roomsObj[this.roomId].song
     }
   },
   watch: {
-    '$route': 'fetchData'
+    '$route': 'fetchPlaylist'
   },
   components: {
     Player,

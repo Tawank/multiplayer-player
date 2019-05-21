@@ -44,7 +44,8 @@ export default {
       let newPostRef = firebase.database().ref('rooms').push()
       let update = {
         name: payload.name,
-        description: payload.description
+        description: payload.description,
+        user: payload.user.email
       }
       newPostRef.set(update, error => {
         console.log(error)

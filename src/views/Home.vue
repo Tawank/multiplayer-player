@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12>
-      <AddRoom />
+      <AddRoom v-if="user" />
     </v-flex>
     <v-flex xs12>
       <Rooms />
@@ -19,6 +19,9 @@ export default {
     }
   },
   computed: {
+    user () {
+      return this.$store.getters.user
+    }
   },
   components: {
     Rooms,

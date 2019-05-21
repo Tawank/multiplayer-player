@@ -13,8 +13,9 @@
           <v-flex xs7>
             <v-card-title primary-title>
               <div style="width: 100%;">
-                <div :title="room.name" class="headline">{{room.name}}</div>
+                <div :title="room.name" class="headline text-truncate">{{room.name}}</div>
                 <div :title="room.description" class="text-truncate">{{room.description}}</div>
+                <div class="text-truncate mt-4">{{room.user}}</div>
               </div>
             </v-card-title>
           </v-flex>
