@@ -45,7 +45,8 @@ export default {
       let update = {
         name: payload.name,
         description: payload.description,
-        user: payload.user.email
+        user: payload.user.email,
+        users: payload.users
       }
       newPostRef.set(update, error => {
         console.log(error)

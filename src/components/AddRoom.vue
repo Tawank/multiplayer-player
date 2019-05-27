@@ -43,7 +43,16 @@ export default {
   },
   methods: {
     addRoom () {
-      this.$store.dispatch('addRoom', { name: this.roomName, description: this.roomDescription, user: this.user })
+      let userObj = {}
+      userObj[this.user.email.replace(/[.#$]/g, '')] = {
+        role: 'admin'
+      }
+      this.$store.dispatch('addRoom', {
+        name: this.roomName,
+        description: this.roomDescription,
+        user: this.user,
+        users: userObj
+      })
     }
   }
 }

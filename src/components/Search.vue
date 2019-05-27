@@ -2,26 +2,15 @@
   <v-layout row wrap>
     <v-flex xs12>
       <v-layout>
-        <v-flex xs11>
+        <v-flex xs12>
           <v-text-field
             v-on:keyup.enter="searchYoutube"
             label="Szukaj"
             v-model="search"
+            append-outer-icon="search"
+            @click:append-outer="searchYoutube"
+            class="mt-0 pt-0"
           ></v-text-field>
-
-        </v-flex>
-        <v-flex xs1>
-          <v-btn
-            dark
-            depressed
-            icon
-            color="black"
-            @click="searchYoutube"
-          >
-            <v-icon medium>
-              search
-            </v-icon>
-          </v-btn>
         </v-flex>
       </v-layout>
     </v-flex>

@@ -49,7 +49,7 @@
 
                 <v-layout row>
                   <v-flex xs12>
-                    <v-btn type="submit">Logowanie</v-btn>
+                    <v-btn :loading="loading" :disabled="loading" type="submit">Logowanie</v-btn>
                   </v-flex>
                 </v-layout>
               </form>
@@ -73,6 +73,9 @@ export default {
   computed: {
     user () {
       return this.$store.getters.user
+    },
+    loading () {
+      return this.$store.getters.loading
     }
   },
   watch: {
