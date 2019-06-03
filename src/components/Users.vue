@@ -40,7 +40,13 @@ export default {
   },
   methods: {
     changeRole (user, role) {
-
+      if (role === 'nikt') {
+      }
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.getters.user
     }
   }
 }
