@@ -11,7 +11,7 @@
         <v-list-tile
           :key="'tile' + index"
           avatar
-          @click="() => {changeRole(index, item.role)}"
+          @click="() => {}"
         >
           <v-list-tile-content>
             <v-list-tile-title :style="`color: ${item.status === 'online' ? 'green' : 'red'}`">{{index}}</v-list-tile-title>
@@ -20,6 +20,9 @@
           <v-list-tile-action>
             <v-layout>
               <v-flex xs12>
+                <v-btn flat @click="changeRole(index, item.role || 'nikt', 'admin')" color="success">Admin</v-btn>
+                <v-btn flat @click="changeRole(index, item.role || 'nikt', 'nikt')" color="warning">Nikt</v-btn>
+                <v-btn flat @click="changeRole(index, item.role || 'nikt', 'ban')" color="error">Ban</v-btn>
               </v-flex>
             </v-layout>
           </v-list-tile-action>
@@ -30,17 +33,26 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/database'
+
 export default {
   props: {
     users: Object
   },
   data () {
     return {
+      roles: [
+        'admin',
+        'nikt',
+        'ban'
+      ]
     }
   },
   methods: {
-    changeRole (user, role) {
-      if (role === 'nikt') {
+    changeRole (user, role, toRole) {
+      if ((role === 'nikt' || role === 'ban') && this.user && this.users[this.user.email.replace(/[.#$]/g, '')].role === 'admin') {
+        firebase.database().ref(`rooms/${this.$route.params.id}/users/${user}/role`).set(toRole)
       }
     }
   },
