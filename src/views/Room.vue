@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     setVideo ({ src, title, thumbnail }) {
+      if (this.banned === true) return
       firebase.database().ref(`rooms/${this.roomId}/song`).set({
         src,
         title,
@@ -57,6 +58,7 @@ export default {
       this.$refs.player.player.play()
     },
     addToPlaylist ({ src, title, thumbnail }) {
+      if (this.banned === true) return
       let newSong = firebase.database().ref(`playlist/${this.roomId}`).push()
       newSong.set({
         src,
@@ -75,6 +77,7 @@ export default {
       })
     },
     playFromPlaylist (search) {
+      if (this.banned === true) return
       if (!search) return
       this.setVideo({
         src: search.src,
@@ -84,6 +87,7 @@ export default {
       this.deleteFromPlaylist(search.key)
     },
     deleteFromPlaylist (key) {
+      if (this.banned === true) return
       firebase.database().ref(`playlist/${this.roomId}/${key}`).set(null)
     },
     songEnded () {
@@ -120,6 +124,9 @@ export default {
     },
     user () {
       return this.$store.getters.user
+    },
+    banned () {
+      return this.$store.getters.banned
     }
   },
   watch: {

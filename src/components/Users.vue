@@ -60,6 +60,13 @@ export default {
     user () {
       return this.$store.getters.user
     }
+  },
+  watch: {
+    users (newVal) {
+      if (this.users[this.user.email.replace(/[.#$]/g, '')].role === 'ban') {
+        this.$store.commit('setBanned', true)
+      }
+    }
   }
 }
 </script>

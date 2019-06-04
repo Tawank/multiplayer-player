@@ -3,11 +3,15 @@ import 'firebase/auth'
 
 export default {
   state: {
-    user: null
+    user: null,
+    banned: false
   },
   mutations: {
     setUser (state, payload) {
       state.user = payload
+    },
+    setBanned (state, payload) {
+      state.banned = payload
     }
   },
   actions: {
@@ -57,6 +61,9 @@ export default {
   getters: {
     user (state) {
       return state.user
+    },
+    banned (state) {
+      return state.banned
     }
   }
 }

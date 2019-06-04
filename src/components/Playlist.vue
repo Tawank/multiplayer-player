@@ -53,6 +53,7 @@ export default {
   },
   methods: {
     playFromPlaylist (src, title, thumbnail, key) {
+      if (this.banned === true) return
       this.$emit('deleteFromPlaylist', key)
       this.$emit('playFromPlaylist', { src, title, thumbnail })
     },
@@ -60,7 +61,13 @@ export default {
       this.$store.dispatch('searchRelated', search)
     },
     deleteFromPlaylist (key) {
+      if (this.banned === true) return
       this.$emit('deleteFromPlaylist', key)
+    }
+  },
+  computed: {
+    banned () {
+      return this.$store.getters.banned
     }
   }
 }
