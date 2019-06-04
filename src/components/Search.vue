@@ -99,6 +99,9 @@ export default {
   computed: {
     related () {
       return this.$store.getters.related
+    },
+    banned () {
+      return this.$store.getters.banned
     }
   },
   mounted () {
@@ -116,9 +119,11 @@ export default {
       this.$store.dispatch('searchRelated', this.search)
     },
     setSrc (src, title, thumbnail) {
+      if (this.banned === true) return
       this.$emit('videoSelected', { src, title, thumbnail })
     },
     addToPlaylist (src, title, thumbnail) {
+      if (this.banned === true) return
       console.log({ src, title, thumbnail })
       this.$emit('addToPlaylist', { src, title, thumbnail })
     }
